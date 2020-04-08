@@ -1,4 +1,4 @@
-export default function () {
+module.exports = function () {
     return {
         noColors:           true,
         report:             '',
@@ -8,13 +8,13 @@ export default function () {
         testCount:          0,
         skipped:            0,
 
-        reportTaskStart (startTime, userAgents, testCount) {
+        async reportTaskStart (startTime, userAgents, testCount) {
             this.startTime = startTime;
             this.uaList    = userAgents.join(', ');
             this.testCount = testCount;
         },
 
-        reportFixtureStart (name) {
+        async reportFixtureStart (name) {
             this.currentFixtureName = this.escapeHtml(name);
         },
 
@@ -24,6 +24,7 @@ export default function () {
 
             errs.forEach((err, idx) => {
                 err = this.formatError(err, `${idx + 1}) `);
+                console.log(err);
 
                 this.report += '\n';
                 this.report += this.indentString(err, 6);
@@ -34,14 +35,26 @@ export default function () {
             this.report += this.indentString('</failure>\n', 4);
         },
 
-        reportTestDone (name, testRunInfo) {
+        _renderAttachments (testRunInfo) {
+            this.report += this.indentString('<system-out>\n', 4);
+            this.report += this.indentString('<![CDATA[\n', 4);
+
+            if (testRunInfo.screenshots && testRunInfo.screenshot.length) {
+                for (const screenshot of testRunInfo.screenshots)
+                    this.report += this.indentString(`[[ATTACHMENT|${screenshot.screenshotPath}]]\n`, 6);
+            }
+
+            if (testRunInfo.videos && testRunInfo.videos.length) {
+                for (const video of testRunInfo.videos)
+                    this.report += this.indentString(`[[ATTACHMENT|${video.videoPath}]]\n`, 6);
+            }
+
+            this.report += this.indentString(']]>\n', 4);
+            this.report += this.indentString('</system-out>\n', 4);
+        },
+
+        async reportTestDone (name, testRunInfo) {
             var hasErr = !!testRunInfo.errs.length;
-
-            if (testRunInfo.unstable)
-                name += ' (unstable)';
-
-            if (testRunInfo.screenshotPath)
-                name += ` (screenshots: ${testRunInfo.screenshotPath})`;
 
             name = this.escapeHtml(name);
 
@@ -56,6 +69,10 @@ export default function () {
             }
             else if (hasErr)
                 this._renderErrors(testRunInfo.errs);
+
+            if (testRunInfo.screenshots && testRunInfo.screenshots.length ||
+                testRunInfo.videos && testRunInfo.videos.length)
+                this._renderAttachments(testRunInfo);
 
             this.report += this.indentString('</testcase>\n', 2);
         },
@@ -86,7 +103,7 @@ export default function () {
                 .newline();
         },
 
-        reportTaskDone (endTime, passed, warnings) {
+        async reportTaskDone (endTime, passed, warnings) {
             var name     = `TestCafe Tests: ${this.escapeHtml(this.uaList)}`;
             var failures = this.testCount - passed;
             var time     = (endTime - this.startTime) / 1000;
@@ -105,4 +122,4 @@ export default function () {
                 .write('</testsuite>');
         }
     };
-}
+};

@@ -10,4 +10,3 @@ try {
 catch (err) {
     module.exports = createCallsiteRecord(err);
 }
-
