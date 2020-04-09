@@ -1,4 +1,4 @@
-module.exports = function () {
+export default function () {
     return {
         noColors:           true,
         report:             '',
@@ -6,7 +6,6 @@ module.exports = function () {
         uaList:             null,
         currentFixtureName: null,
         testCount:          0,
-        skipped:            0,
 
         async reportTaskStart (startTime, userAgents, testCount) {
             this.startTime = startTime;
@@ -24,7 +23,6 @@ module.exports = function () {
 
             errs.forEach((err, idx) => {
                 err = this.formatError(err, `${idx + 1}) `);
-                console.log(err);
 
                 this.report += '\n';
                 this.report += this.indentString(err, 6);
@@ -39,7 +37,7 @@ module.exports = function () {
             this.report += this.indentString('<system-out>\n', 4);
             this.report += this.indentString('<![CDATA[\n', 4);
 
-            if (testRunInfo.screenshots && testRunInfo.screenshot.length) {
+            if (testRunInfo.screenshots && testRunInfo.screenshots.length) {
                 for (const screenshot of testRunInfo.screenshots)
                     this.report += this.indentString(`[[ATTACHMENT|${screenshot.screenshotPath}]]\n`, 6);
             }
@@ -55,6 +53,8 @@ module.exports = function () {
 
         async reportTestDone (name, testRunInfo) {
             var hasErr = !!testRunInfo.errs.length;
+            const hasScreenshots = !!testRunInfo.screenshots;
+            const hasVideos = !!testRunInfo.videos;
 
             name = this.escapeHtml(name);
 
@@ -63,15 +63,14 @@ module.exports = function () {
 
             this.report += this.indentString(openTag, 2);
 
-            if (testRunInfo.skipped) {
-                this.skipped++;
+            if (testRunInfo.skipped) 
                 this.report += this.indentString('<skipped/>\n', 4);
-            }
+            
             else if (hasErr)
                 this._renderErrors(testRunInfo.errs);
 
-            if (testRunInfo.screenshots && testRunInfo.screenshots.length ||
-                testRunInfo.videos && testRunInfo.videos.length)
+            if (hasScreenshots && testRunInfo.screenshots.length ||
+                hasVideos && testRunInfo.videos.length)
                 this._renderAttachments(testRunInfo);
 
             this.report += this.indentString('</testcase>\n', 2);
@@ -103,15 +102,15 @@ module.exports = function () {
                 .newline();
         },
 
-        async reportTaskDone (endTime, passed, warnings) {
+        async reportTaskDone (endTime, passed, warnings, result) {
             var name     = `TestCafe Tests: ${this.escapeHtml(this.uaList)}`;
-            var failures = this.testCount - passed;
             var time     = (endTime - this.startTime) / 1000;
 
             this.write('<?xml version="1.0" encoding="UTF-8" ?>')
                 .newline()
-                .write(`<testsuite name="${name}" tests="${this.testCount}" failures="${failures}" skipped="${this.skipped}"` +
-                       ` errors="${failures}" time="${time}" timestamp="${endTime.toUTCString()}" >`)
+                .write(`<testsuite name="${name}" tests="${this.testCount}" failures="${result.failedCount}" ` +
+                       `skipped="${result.skippedCount}" errors="${result.failedCount}" time="${time}" ` +
+                       `timestamp="${endTime.toUTCString()}" >`)
                 .newline()
                 .write(this.report);
 
@@ -122,4 +121,4 @@ module.exports = function () {
                 .write('</testsuite>');
         }
     };
-};
+}
