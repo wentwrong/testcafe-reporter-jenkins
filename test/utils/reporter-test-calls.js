@@ -48,6 +48,7 @@ module.exports = [
                         takenOnFail:       false
                     }
                 ],
+                videos:     [],
                 quarantine: null,
                 skipped:    false
             }
@@ -100,6 +101,13 @@ module.exports = [
                         takenOnFail:       true
                     }
                 ],
+                videos: [
+                    {
+                        testRunId:  '',
+                        videoPath:  '/videos/1445437598847',
+                        singleFile: true
+                    }
+                ],
                 quarantine: null,
                 skipped:    false
             }
@@ -116,6 +124,7 @@ module.exports = [
                 unstable:       false,
                 screenshotPath: null,
                 screenshots:    [],
+                videos:         [],
                 quarantine:     null,
                 skipped:        false
             }
@@ -139,6 +148,7 @@ module.exports = [
                 unstable:       false,
                 screenshotPath: null,
                 screenshots:    [],
+                videos:         [],
                 quarantine:     null,
                 skipped:        false
             }
@@ -155,6 +165,7 @@ module.exports = [
                 unstable:       false,
                 screenshotPath: null,
                 screenshots:    [],
+                videos:         [],
                 quarantine:     null,
                 skipped:        false
             }
@@ -171,6 +182,7 @@ module.exports = [
                 unstable:       false,
                 screenshotPath: null,
                 screenshots:    [],
+                videos:         [],
                 quarantine:     null,
                 skipped:        false
             }
@@ -212,6 +224,7 @@ module.exports = [
                         takenOnFail:       false
                     }
                 ],
+                videos:     [],
                 quarantine: null,
                 skipped:    false
             }

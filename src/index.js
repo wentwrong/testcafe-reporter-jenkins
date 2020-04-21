@@ -33,16 +33,16 @@ export default function () {
             this.report += this.indentString('</failure>\n', 4);
         },
 
-        _renderAttachments (testRunInfo) {
+        _renderAttachments (testRunInfo, hasScreenshots, hasVideos) {
             this.report += this.indentString('<system-out>\n', 4);
             this.report += this.indentString('<![CDATA[\n', 4);
 
-            if (testRunInfo.screenshots && testRunInfo.screenshots.length) {
+            if (hasScreenshots) {
                 for (const screenshot of testRunInfo.screenshots)
                     this.report += this.indentString(`[[ATTACHMENT|${screenshot.screenshotPath}]]\n`, 6);
             }
 
-            if (testRunInfo.videos && testRunInfo.videos.length) {
+            if (hasVideos) {
                 for (const video of testRunInfo.videos)
                     this.report += this.indentString(`[[ATTACHMENT|${video.videoPath}]]\n`, 6);
             }
@@ -52,9 +52,9 @@ export default function () {
         },
 
         async reportTestDone (name, testRunInfo) {
-            var hasErr = !!testRunInfo.errs.length;
-            const hasScreenshots = !!testRunInfo.screenshots;
-            const hasVideos = !!testRunInfo.videos;
+            const hasErr = !!testRunInfo.errs.length;
+            const hasScreenshots = testRunInfo.screenshots && !!testRunInfo.screenshots.length;
+            const hasVideos = testRunInfo.videos && !!testRunInfo.videos.length;
 
             name = this.escapeHtml(name);
 
@@ -63,15 +63,14 @@ export default function () {
 
             this.report += this.indentString(openTag, 2);
 
-            if (testRunInfo.skipped) 
+            if (testRunInfo.skipped)
                 this.report += this.indentString('<skipped/>\n', 4);
-            
+
             else if (hasErr)
                 this._renderErrors(testRunInfo.errs);
 
-            if (hasScreenshots && testRunInfo.screenshots.length ||
-                hasVideos && testRunInfo.videos.length)
-                this._renderAttachments(testRunInfo);
+            if (hasScreenshots || hasVideos)
+                this._renderAttachments(testRunInfo, hasScreenshots, hasVideos);
 
             this.report += this.indentString('</testcase>\n', 2);
         },
