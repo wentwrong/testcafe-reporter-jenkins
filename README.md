@@ -1,5 +1,5 @@
 # testcafe-reporter-jenkins
-![](https://github.com/wentwrong/testcafe-reporter-jenkins/workflows/.github/workflows/node-ci.yml/badge.svg)
+![](https://github.com/wentwrong/testcafe-reporter-jenkins/workflows/Node.js%20CI/badge.svg)
 
 This is the **jenkins** reporter plugin for [TestCafe](http://devexpress.github.io/testcafe).
 
