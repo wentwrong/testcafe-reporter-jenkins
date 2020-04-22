@@ -1,14 +1,15 @@
+const fs    = require('fs');
 var gulp    = require('gulp');
 var eslint  = require('gulp-eslint');
 var babel   = require('gulp-babel');
 var mocha   = require('gulp-mocha');
 var del     = require('del');
 
-gulp.task('clean', function (cb) {
-    del('lib', cb);
-});
+async function clean () {
+    await del('lib');
+}
 
-gulp.task('lint', function () {
+function lint () {
     return gulp
         .src([
             'src/**/*.js',
@@ -18,36 +19,74 @@ gulp.task('lint', function () {
         .pipe(eslint())
         .pipe(eslint.format())
         .pipe(eslint.failAfterError());
-});
+}
 
-gulp.task('build', ['clean', 'lint'], function () {
+function transpile () {
     return gulp
         .src('src/**/*.js')
-        .pipe(babel())
+        .pipe(babel({
+            'presets': [
+                [
+                    '@babel/env',
+                    {
+                        'targets': {
+                            'node': '10'
+                        }
+                    }
+                ]
+            ],
+            'plugins': [
+                'add-module-exports'
+            ]
+        }))
         .pipe(gulp.dest('lib'));
-});
+}
 
-gulp.task('test', ['build'], function () {
+function test () {
     return gulp
-        .src('test/**.js')
+        .src('test/test.js')
         .pipe(mocha({
             ui:       'bdd',
             reporter: 'spec',
-            timeout:  typeof v8debug === 'undefined' ? 2000 : Infinity // NOTE: disable timeouts in debug
+            timeout:  typeof v8debug === 'undefined' ? 20000 : Infinity // NOTE: disable timeouts in debug
         }));
-});
+}
 
-gulp.task('preview', ['build'], function () {
-    var buildReporterPlugin = require('testcafe').embeddingUtils.buildReporterPlugin;
-    var pluginFactory       = require('./lib');
-    var reporterTestCalls   = require('./test/utils/reporter-test-calls');
-    var plugin              = buildReporterPlugin(pluginFactory);
+async function generateReport ({ withColors = false, toFile = false } = {}) {
+    const createReport = require('./test/utils/create-report');
+    const report = await createReport(withColors);
 
-    console.log();
+    if (toFile)
+        fs.writeFileSync(`test/data/report-${withColors ? 'with' : 'without'}-colors.xml`, report);
+    else
+        process.stdout.write(report + '\n');
+}
 
-    reporterTestCalls.forEach(function (call) {
-        plugin[call.method].apply(plugin, call.args);
-    });
+async function previewNoColors () {
+    await generateReport({ withColors: false });
+}
 
-    process.exit(0);
-});
+async function previewColors () {
+    await generateReport({ withColors: true });
+}
+
+async function generateTestDataNoColors () {
+    await generateReport({ withColors: false, toFile: true });
+}
+
+async function generateTestDataColors () {
+    await generateReport({ withColors: true, toFile: true });
+}
+
+const build = gulp.series(clean, lint, transpile);
+
+exports.clean = clean;
+exports.lint = lint;
+exports.build = build;
+exports.test = gulp.series(build, test);
+exports.previewColors = gulp.series(build, previewColors);
+exports.previewNoColors = gulp.series(build, previewNoColors);
+exports.preview = gulp.series(build, previewNoColors, previewColors);
+exports.generateTestDataNoColors = gulp.series(build, generateTestDataNoColors);
+exports.generateTestDataColors = gulp.series(build, generateTestDataColors);
+exports.generateTestData = gulp.series(build, gulp.parallel(generateTestDataNoColors, generateTestDataColors));

@@ -1,20 +1,16 @@
-# testcafe-reporter-xunit
-[![Build Status](https://travis-ci.org/DevExpress/testcafe-reporter-xunit.svg)](https://travis-ci.org/DevExpress/testcafe-reporter-xunit)
+# testcafe-reporter-jenkins
+![](https://github.com/wentwrong/testcafe-reporter-jenkins/workflows/Node.js%20CI/badge.svg)
 
-This is the **xUnit** reporter plugin for [TestCafe](http://devexpress.github.io/testcafe).
+This is the **jenkins** reporter plugin for [TestCafe](http://devexpress.github.io/testcafe).
 
 <p align="center">
-    <img src="https://raw.github.com/DevExpress/testcafe-reporter-xunit/master/media/preview.png" alt="preview" />
+    <img src="https://raw.github.com/wentwrong/testcafe-reporter-jenkins/master/media/preview.png" alt="preview" />
 </p>
 
 ## Install
 
-This reporter is shipped with TestCafe by default. In most cases, you won't need to install it separately.
-
-However, if you need to install this reporter, you can use the following command.
-
 ```
-npm install testcafe-reporter-xunit
+npm install testcafe-reporter-jenkins
 ```
 
 ## Usage
@@ -22,7 +18,7 @@ npm install testcafe-reporter-xunit
 When you run tests from the command line, specify the reporter name by using the `--reporter` option:
 
 ```
-testcafe chrome 'path/to/test/file.js' --reporter xunit
+testcafe chrome 'path/to/test/file.js' --reporter jenkins
 ```
 
 
@@ -33,9 +29,6 @@ testCafe
     .createRunner()
     .src('path/to/test/file.js')
     .browsers('chrome')
-    .reporter('xunit') // <-
+    .reporter('jenkins') // <-
     .run();
 ```
-
-## Author
-Developer Express Inc. (https://devexpress.com)
