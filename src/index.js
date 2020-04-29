@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid';
+
 export default function () {
     return {
         noColors:           true,
@@ -39,12 +41,12 @@ export default function () {
 
             if (hasScreenshots) {
                 for (const screenshot of testRunInfo.screenshots)
-                    this.report += this.indentString(`[[ATTACHMENT|${screenshot.screenshotPath}]]\n`, 6);
+                    this.report += this.indentString(`[[ATTACHMENT|${screenshot.screenshotPath}|${uuidv4()}]]\n`, 6);
             }
 
             if (hasVideos) {
                 for (const video of testRunInfo.videos)
-                    this.report += this.indentString(`[[ATTACHMENT|${video.videoPath}]]\n`, 6);
+                    this.report += this.indentString(`[[ATTACHMENT|${video.videoPath}|${uuidv4()}]]\n`, 6);
             }
 
             this.report += this.indentString(']]>\n', 4);
