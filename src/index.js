@@ -8,6 +8,7 @@ export default function () {
         uaList:             null,
         currentFixtureName: null,
         testCount:          0,
+        singleVideoHash:    null,
 
         async reportTaskStart (startTime, userAgents, testCount) {
             this.startTime = startTime;
@@ -45,8 +46,14 @@ export default function () {
             }
 
             if (hasVideos) {
-                for (const video of testRunInfo.videos)
-                    this.report += this.indentString(`[[ATTACHMENT|${video.videoPath}|${uuidv4()}]]\n`, 6);
+                for (const video of testRunInfo.videos) {
+                    if (video.singleFile)
+                        this.singleVideoHash = this.singleVideoHash || uuidv4();
+
+                    const videoHash = video.singleFile ? this.singleVideoHash : uuidv4();
+
+                    this.report += this.indentString(`[[ATTACHMENT|${video.videoPath}|${videoHash}]]\n`, 6);
+                }
             }
 
             this.report += this.indentString(']]>\n', 4);

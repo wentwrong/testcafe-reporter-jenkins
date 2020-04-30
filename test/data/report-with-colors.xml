@@ -3,7 +3,7 @@
   <testcase classname="First fixture" name="First test in first fixture" time="74">
     <system-out>
     <![CDATA[
-      [[ATTACHMENT|/screenshots/1445437598847]]
+      [[ATTACHMENT|/screenshots/1445437598847|UUID]]
     ]]>
     </system-out>
   </testcase>
@@ -63,9 +63,9 @@
     </failure>
     <system-out>
     <![CDATA[
-      [[ATTACHMENT|/screenshots/1445437598847]]
-      [[ATTACHMENT|/screenshots/1445437598847]]
-      [[ATTACHMENT|/videos/1445437598847]]
+      [[ATTACHMENT|/screenshots/1445437598847|UUID]]
+      [[ATTACHMENT|/screenshots/1445437598847|UUID]]
+      [[ATTACHMENT|/videos/1445437598847|UUID]]
     ]]>
     </system-out>
   </testcase>
@@ -107,7 +107,7 @@
     </failure>
     <system-out>
     <![CDATA[
-      [[ATTACHMENT|/screenshots/1445437598847]]
+      [[ATTACHMENT|/screenshots/1445437598847|UUID]]
     ]]>
     </system-out>
   </testcase>

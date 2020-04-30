@@ -36,5 +36,10 @@ module.exports = async function createReport (withColors) {
         await plugin[call.method].apply(plugin, call.args);
 
     // NOTE: mock stack entries
-    return outStream.data.replace(/\(.+:\d+:\d+.*\)/g, '(some-file:1:1)');
+    outStream.data = outStream.data.replace(/\(.+:\d+:\d+.*\)/g, '(some-file:1:1)');
+
+    // NOTE: mock attachments UUID hashes
+    outStream.data = outStream.data.replace(/\[\[ATTACHMENT\|(.*)\|(.*)\]\]/g, '[[ATTACHMENT|$1|UUID]]');
+
+    return outStream.data;
 };
