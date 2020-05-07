@@ -118,7 +118,7 @@ export default function () {
                 .newline()
                 .write(`<testsuite name="${name}" tests="${this.testCount}" failures="${result.failedCount}" ` +
                        `skipped="${result.skippedCount}" errors="${result.failedCount}" time="${time}" ` +
-                       `timestamp="${endTime.toUTCString()}" >`)
+                       `timestamp="${endTime.toUTCString()}" id="${uuidv4()}">`)
                 .newline()
                 .write(this.report);
 
