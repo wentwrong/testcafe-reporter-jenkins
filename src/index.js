@@ -67,8 +67,8 @@ export default function () {
 
             name = this.escapeHtml(name);
 
-            var openTag = `<testcase classname="${this.currentFixtureName}" ` +
-                          `name="${name}" time="${testRunInfo.durationMs / 1000}">\n`;
+            const openTag = `<testcase classname="${this.currentFixtureName}" ` +
+                            `name="${name}" time="${testRunInfo.durationMs / 1000}">\n`;
 
             this.report += this.indentString(openTag, 2);
 
@@ -111,13 +111,13 @@ export default function () {
         },
 
         async reportTaskDone (endTime, passed, warnings, result) {
-            var name     = `TestCafe Tests: ${this.escapeHtml(this.uaList)}`;
-            var time     = (endTime - this.startTime) / 1000;
+            const name     = `TestCafe Tests: ${this.escapeHtml(this.uaList)}`;
+            const time     = (endTime - this.startTime) / 1000;
 
             this.write('<?xml version="1.0" encoding="UTF-8" ?>')
                 .newline()
                 .write(`<testsuite name="${name}" tests="${this.testCount}" failures="${result.failedCount}" ` +
-                       `skipped="${result.skippedCount}" errors="${result.failedCount}" time="${time}" ` +
+                       `skipped="${result.skippedCount}" time="${time}" ` +
                        `timestamp="${endTime.toUTCString()}" id="${uuidv4()}">`)
                 .newline()
                 .write(this.report);
