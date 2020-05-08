@@ -42,7 +42,7 @@ export default function () {
 
             if (hasScreenshots) {
                 for (const screenshot of testRunInfo.screenshots)
-                    this.report += this.indentString(`[[ATTACHMENT|${screenshot.screenshotPath}|${uuidv4()}]]\n`, 6);
+                    this.report += this.indentString(`[[screenshot|${screenshot.screenshotPath}|${uuidv4()}]]\n`, 6);
             }
 
             if (hasVideos) {
@@ -52,7 +52,7 @@ export default function () {
 
                     const videoHash = video.singleFile ? this.singleVideoHash : uuidv4();
 
-                    this.report += this.indentString(`[[ATTACHMENT|${video.videoPath}|${videoHash}]]\n`, 6);
+                    this.report += this.indentString(`[[video|${video.videoPath}|${videoHash}]]\n`, 6);
                 }
             }
 

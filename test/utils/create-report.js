@@ -39,7 +39,7 @@ module.exports = async function createReport (withColors) {
     outStream.data = outStream.data.replace(/\(.+:\d+:\d+.*\)/g, '(some-file:1:1)');
 
     // NOTE: mock attachments UUID hashes
-    outStream.data = outStream.data.replace(/\[\[ATTACHMENT\|(.*)\|(.*)\]\]/g, '[[ATTACHMENT|$1|UUID]]');
+    outStream.data = outStream.data.replace(/\[\[(.*)\|(.*)\|(.*)\]\]/g, '[[$1|$2|UUID]]');
 
     // NOTE: mock suite UUID hash
     outStream.data = outStream.data.replace(/id="(.*)"/g, 'id="UUID"');
