@@ -17,6 +17,8 @@ jobs:
         uses: actions/setup-node@v1
         with:
             node-version: 10.x
+      - name: Install package
+        run: npm install
       - name: Pack package
         run: npm pack
       - name: Create Release
