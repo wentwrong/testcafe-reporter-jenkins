@@ -19,6 +19,8 @@ jobs:
             node-version: 10.x
       - name: Install package
         run: npm install
+      - name: Build package
+        run: npx gulp build
       - name: Pack package
         run: npm pack
       - name: Create Release
