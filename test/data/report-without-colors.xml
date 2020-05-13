@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite name="TestCafe Tests: Chrome 41.0.2227 / Mac OS X 10.10.1, Firefox 47 / Mac OS X 10.10.1" tests="7" failures="2" skipped="0" errors="2" time="925" timestamp="Thu, 01 Jan 1970 00:15:25 GMT" >
+<testsuite name="TestCafe Tests: Chrome 41.0.2227 / Mac OS X 10.10.1, Firefox 47 / Mac OS X 10.10.1" tests="7" failures="2" skipped="0" time="925" timestamp="Thu, 01 Jan 1970 00:15:25 GMT" id="UUID">
   <testcase classname="First fixture" name="First test in first fixture" time="74">
     <system-out>
     <![CDATA[
-      [[ATTACHMENT|/screenshots/1445437598847]]
+      [[screenshot|/screenshots/1445437598847|UUID]]
     ]]>
     </system-out>
   </testcase>
@@ -63,9 +63,9 @@
     </failure>
     <system-out>
     <![CDATA[
-      [[ATTACHMENT|/screenshots/1445437598847]]
-      [[ATTACHMENT|/screenshots/1445437598847]]
-      [[ATTACHMENT|/videos/1445437598847]]
+      [[screenshot|/screenshots/1445437598847|UUID]]
+      [[screenshot|/screenshots/1445437598847|UUID]]
+      [[video|/videos/1445437598847|UUID]]
     ]]>
     </system-out>
   </testcase>
@@ -107,7 +107,7 @@
     </failure>
     <system-out>
     <![CDATA[
-      [[ATTACHMENT|/screenshots/1445437598847]]
+      [[screenshot|/screenshots/1445437598847|UUID]]
     ]]>
     </system-out>
   </testcase>

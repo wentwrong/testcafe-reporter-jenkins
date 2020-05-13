@@ -3,7 +3,7 @@ var pluginFactory       = require('../../lib');
 var reporterTestCalls   = require('./reporter-test-calls');
 
 module.exports = async function createReport (withColors) {
-    var outStream = {
+    const outStream = {
         data: '',
 
         write: function (text) {
@@ -11,7 +11,7 @@ module.exports = async function createReport (withColors) {
         }
     };
 
-    var plugin = buildReporterPlugin(pluginFactory, outStream);
+    const plugin = buildReporterPlugin(pluginFactory, outStream);
 
     plugin.chalk.enabled = !plugin.noColors && withColors;
 
@@ -36,5 +36,13 @@ module.exports = async function createReport (withColors) {
         await plugin[call.method].apply(plugin, call.args);
 
     // NOTE: mock stack entries
-    return outStream.data.replace(/\(.+:\d+:\d+.*\)/g, '(some-file:1:1)');
+    outStream.data = outStream.data.replace(/\(.+:\d+:\d+.*\)/g, '(some-file:1:1)');
+
+    // NOTE: mock attachments UUID hashes
+    outStream.data = outStream.data.replace(/\[\[(.*)\|(.*)\|(.*)\]\]/g, '[[$1|$2|UUID]]');
+
+    // NOTE: mock suite UUID hash
+    outStream.data = outStream.data.replace(/id="(.*)"/g, 'id="UUID"');
+
+    return outStream.data;
 };

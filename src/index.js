@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid';
+
 export default function () {
     return {
         noColors:           true,
@@ -6,6 +8,7 @@ export default function () {
         uaList:             null,
         currentFixtureName: null,
         testCount:          0,
+        singleVideoHash:    null,
 
         async reportTaskStart (startTime, userAgents, testCount) {
             this.startTime = startTime;
@@ -39,12 +42,18 @@ export default function () {
 
             if (hasScreenshots) {
                 for (const screenshot of testRunInfo.screenshots)
-                    this.report += this.indentString(`[[ATTACHMENT|${screenshot.screenshotPath}]]\n`, 6);
+                    this.report += this.indentString(`[[screenshot|${screenshot.screenshotPath}|${uuidv4()}]]\n`, 6);
             }
 
             if (hasVideos) {
-                for (const video of testRunInfo.videos)
-                    this.report += this.indentString(`[[ATTACHMENT|${video.videoPath}]]\n`, 6);
+                for (const video of testRunInfo.videos) {
+                    if (video.singleFile)
+                        this.singleVideoHash = this.singleVideoHash || uuidv4();
+
+                    const videoHash = video.singleFile ? this.singleVideoHash : uuidv4();
+
+                    this.report += this.indentString(`[[video|${video.videoPath}|${videoHash}]]\n`, 6);
+                }
             }
 
             this.report += this.indentString(']]>\n', 4);
@@ -58,8 +67,8 @@ export default function () {
 
             name = this.escapeHtml(name);
 
-            var openTag = `<testcase classname="${this.currentFixtureName}" ` +
-                          `name="${name}" time="${testRunInfo.durationMs / 1000}">\n`;
+            const openTag = `<testcase classname="${this.currentFixtureName}" ` +
+                            `name="${name}" time="${testRunInfo.durationMs / 1000}">\n`;
 
             this.report += this.indentString(openTag, 2);
 
@@ -102,14 +111,14 @@ export default function () {
         },
 
         async reportTaskDone (endTime, passed, warnings, result) {
-            var name     = `TestCafe Tests: ${this.escapeHtml(this.uaList)}`;
-            var time     = (endTime - this.startTime) / 1000;
+            const name     = `TestCafe Tests: ${this.escapeHtml(this.uaList)}`;
+            const time     = (endTime - this.startTime) / 1000;
 
             this.write('<?xml version="1.0" encoding="UTF-8" ?>')
                 .newline()
                 .write(`<testsuite name="${name}" tests="${this.testCount}" failures="${result.failedCount}" ` +
-                       `skipped="${result.skippedCount}" errors="${result.failedCount}" time="${time}" ` +
-                       `timestamp="${endTime.toUTCString()}" >`)
+                       `skipped="${result.skippedCount}" time="${time}" ` +
+                       `timestamp="${endTime.toUTCString()}" id="${uuidv4()}">`)
                 .newline()
                 .write(this.report);
 
