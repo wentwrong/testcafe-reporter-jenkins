@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite name="TestCafe Tests: Chrome 41.0.2227 / Mac OS X 10.10.1, Firefox 47 / Mac OS X 10.10.1" tests="7" failures="2" skipped="0" time="925" timestamp="Thu, 01 Jan 1970 00:15:25 GMT" id="UUID">
-  <testcase classname="First fixture" name="First test in first fixture" time="74">
+<testsuite name="TestCafe Tests: Chrome 41.0.2227 / Mac OS X 10.10.1, Firefox 47 / Mac OS X 10.10.1" tests="7" failures="2" skipped="1" time="925" timestamp="Thu, 01 Jan 1970 00:15:25 GMT" id="UUID">
+  <testcase classname="First fixture" name="First test in first fixture" time="10.271">
     <system-out>
     <![CDATA[
-      [[screenshot|/screenshots/1445437598847|UUID]]
+      [[screenshotsDir|/screenshots]]
+      [[screenshot|1/Firefox_76.0_Linux_0.0/1.png|UUID]]
+      [[screenshot|1/Chrome_83.0.4103.61_Linux_0.0/1.png|UUID]]
     ]]>
     </system-out>
   </testcase>
-  <testcase classname="First fixture" name="Second test in first fixture" time="74">
+  <testcase classname="First fixture" name="Second test in first fixture" time="5.871">
     <failure>
     <![CDATA[
       1) A JavaScript error occurred on "http://example.org".
@@ -19,7 +21,7 @@
          JavaScript error details:
          Some error
 
-         Browser: Chrome 41.0.2227 / Mac OS X 10.10.1
+         Browser: Chrome 83.0.4103.61 / Linux 0.0
          Screenshot: /screenshots/1445437598847/errors
 
              1 |const path = require('path');
@@ -43,7 +45,7 @@
           > |   two
             |   three
 
-         Browser: Firefox 47 / Mac OS X 10.10.1
+         Browser: Firefox 76.0 / Linux 0.0
 
              1 |const path = require('path');
              2 |const findLastIndex = require('lodash.findlastindex');
@@ -63,21 +65,25 @@
     </failure>
     <system-out>
     <![CDATA[
-      [[screenshot|/screenshots/1445437598847|UUID]]
-      [[screenshot|/screenshots/1445437598847|UUID]]
-      [[video|/videos/1445437598847|UUID]]
+      [[screenshotsDir|/screenshots]]
+      [[videosDir|/videos]]
+      [[screenshot|2/Firefox_76.0_Linux_0.0/errors/1.png|UUID]]
+      [[screenshot|2/Chrome_83.0.4103.61_Linux_0.0/errors/1.png|UUID]]
+      [[video|2/Firefox_76.0_Linux_0.0/1.mp4|UUID]]
+      [[video|2/Chrome_83.0.4103.61_Linux_0.0/1.mp4|UUID]]
     ]]>
     </system-out>
   </testcase>
-  <testcase classname="First fixture" name="Third test in first fixture" time="74">
+  <testcase classname="First fixture" name="Third test in first fixture" time="3.564">
   </testcase>
   <testcase classname="Second fixture" name="First test in second fixture" time="74">
+    <skipped/>
   </testcase>
-  <testcase classname="Second fixture" name="Second test in second fixture" time="74">
+  <testcase classname="Second fixture" name="Second test in second fixture" time="3.596">
   </testcase>
-  <testcase classname="Second fixture" name="Third test in second fixture" time="0">
+  <testcase classname="Second fixture" name="Third test in second fixture" time="4.526">
   </testcase>
-  <testcase classname="Third fixture" name="First test in third fixture" time="0">
+  <testcase classname="Third fixture" name="First test in third fixture" time="6.557">
     <failure>
     <![CDATA[
       1) - Error in fixture.beforeEach hook -
@@ -87,7 +93,7 @@
           > |   two
             |   three
 
-         Browser: Firefox 47 / Mac OS X 10.10.1
+         Browser: Firefox 76.0 / Linux 0.0
 
              1 |const path = require('path');
              2 |const findLastIndex = require('lodash.findlastindex');
@@ -107,7 +113,10 @@
     </failure>
     <system-out>
     <![CDATA[
-      [[screenshot|/screenshots/1445437598847|UUID]]
+      [[screenshotsDir|/screenshots]]
+      [[videosDir|/videos]]
+      [[screenshot|7/Firefox_76.0_Linux_0.0/errors/1.png|UUID]]
+      [[video|7/Firefox_76.0_Linux_0.0/1.mp4|UUID]]
     ]]>
     </system-out>
   </testcase>

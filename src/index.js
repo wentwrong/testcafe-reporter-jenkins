@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
+import { relative } from 'path';
 
 export default function () {
     return {
@@ -9,11 +10,13 @@ export default function () {
         currentFixtureName: null,
         testCount:          0,
         singleVideoHash:    null,
+        options:            null,
 
-        async reportTaskStart (startTime, userAgents, testCount) {
+        async reportTaskStart (startTime, userAgents, testCount, testStructure, options) {
             this.startTime = startTime;
             this.uaList    = userAgents.join(', ');
             this.testCount = testCount;
+            this.options = options;
         },
 
         async reportFixtureStart (name) {
@@ -36,13 +39,42 @@ export default function () {
             this.report += this.indentString('</failure>\n', 4);
         },
 
+        _correctAttachmentPath ({ attachmentPath, type }) {
+            if (this.options) {
+                if (type === 'screenshot')
+                    return relative(this.options.screenshots.path, attachmentPath);
+                else if (type === 'video' && this.options.videoPath)
+                    return relative(this.options.videoPath, attachmentPath);
+
+            }
+
+            return attachmentPath;
+        },
+
         _renderAttachments (testRunInfo, hasScreenshots, hasVideos) {
             this.report += this.indentString('<system-out>\n', 4);
             this.report += this.indentString('<![CDATA[\n', 4);
 
+            if (this.options) {
+                const screenshotsDir = this.options.screenshots.path;
+                const videosDir = this.options.videoPath;
+
+                if (hasScreenshots && screenshotsDir)
+                    this.report += this.indentString(`[[screenshotsDir|${screenshotsDir}]]\n`, 6);
+
+                if (hasVideos && videosDir)
+                    this.report += this.indentString(`[[videosDir|${videosDir}]]\n`, 6);
+            }
+
             if (hasScreenshots) {
-                for (const screenshot of testRunInfo.screenshots)
-                    this.report += this.indentString(`[[screenshot|${screenshot.screenshotPath}|${uuidv4()}]]\n`, 6);
+                for (const screenshot of testRunInfo.screenshots) {
+                    const correctedPath = this._correctAttachmentPath({
+                        attachmentPath: screenshot.screenshotPath,
+                        type:           'screenshot'
+                    });
+
+                    this.report += this.indentString(`[[screenshot|${correctedPath}|${uuidv4()}]]\n`, 6);
+                }
             }
 
             if (hasVideos) {
@@ -52,7 +84,12 @@ export default function () {
 
                     const videoHash = video.singleFile ? this.singleVideoHash : uuidv4();
 
-                    this.report += this.indentString(`[[video|${video.videoPath}|${videoHash}]]\n`, 6);
+                    const correctedPath = this._correctAttachmentPath({
+                        attachmentPath: video.videoPath,
+                        type:           'video'
+                    });
+
+                    this.report += this.indentString(`[[video|${correctedPath}|${videoHash}]]\n`, 6);
                 }
             }
 

@@ -40,9 +40,9 @@
     "normalize-newline": "^3.0.0",
     "publish-please": "^5.5.1",
     "read-file-relative": "^1.2.0",
-    "testcafe": "^1.8.4"
+    "testcafe": "^1.8.5"
   },
   "dependencies": {
-    "uuid": "^8.0.0"
+    "uuid": "^8.1.0"
   }
 }
