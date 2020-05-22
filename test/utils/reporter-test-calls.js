@@ -16,8 +16,8 @@ module.exports = [
         args:   [
             new Date('1970-01-01T00:00:00.000Z'),
             [
-                'Chrome 41.0.2227 / Mac OS X 10.10.1',
-                'Firefox 47 / Mac OS X 10.10.1'
+                'Chrome 83.0.4103.61 / Linux 0.0',
+                'Firefox 76.0 / Linux 0.0'
             ],
             7,
             // NOTE: testStructure

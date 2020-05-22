@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import { relative } from 'path';
+import path from 'path';
 
 export default function () {
     return {
@@ -42,9 +42,9 @@ export default function () {
         _correctAttachmentPath ({ attachmentPath, type }) {
             if (this.options) {
                 if (type === 'screenshot')
-                    return relative(this.options.screenshots.path, attachmentPath);
+                    return path.posix.relative(this.options.screenshots.path, attachmentPath);
                 else if (type === 'video' && this.options.videoPath)
-                    return relative(this.options.videoPath, attachmentPath);
+                    return path.posix.relative(this.options.videoPath, attachmentPath);
 
             }
 
