@@ -42,9 +42,9 @@ export default function () {
         _correctAttachmentPath ({ attachmentPath, type }) {
             if (this.options) {
                 if (type === 'screenshot')
-                    return path.posix.relative(this.options.screenshots.path, attachmentPath);
+                    return path.relative(this.options.screenshots.path, attachmentPath);
                 else if (type === 'video' && this.options.videoPath)
-                    return path.posix.relative(this.options.videoPath, attachmentPath);
+                    return path.relative(this.options.videoPath, attachmentPath);
 
             }
 
