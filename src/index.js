@@ -12,11 +12,11 @@ export default function () {
         singleVideoHash:    null,
         options:            null,
 
-        async reportTaskStart (startTime, userAgents, testCount, testStructure, options) {
+        async reportTaskStart (startTime, userAgents, testCount, testStructure, { configuration } = {}) {
             this.startTime = startTime;
             this.uaList    = userAgents.join(', ');
             this.testCount = testCount;
-            this.options = options;
+            this.options   = configuration;
         },
 
         async reportFixtureStart (name) {

@@ -82,44 +82,46 @@ module.exports = [
                     }
                 }
             ],
-            // NOTE: configuration options
+            // NOTE: task properties
             {
-                allowMultipleWindows: false,
-                appInitDelay:         1000,
-                assertionTimeout:     3000,
-                browsers:             ['chrome', 'firefox'],
-                concurrency:          1,
-                debugMode:            false,
-                debugOnFail:          false,
-                developmentMode:      false,
-                disablePageCaching:   false,
-                disablePageReloads:   false,
-                disableScreenshots:   false,
-                hostname:             'localhost',
-                pageLoadTimeout:      3000,
-                port1:                1337,
-                port2:                1338,
-                quarantineMode:       false,
-                reporter:             [{ name: 'jenkins' }],
-                retryTestPages:       false,
-                screenshots:          {
-                    path:        '/screenshots',
-                    takeOnFails: true,
-                    pathPattern: '${TEST_INDEX}/${USERAGENT}/${FILE_INDEX}.png'
-                },
-                selectorTimeout:        10000,
-                skipJsErrors:           false,
-                skipUncaughtErrors:     false,
-                speed:                  1,
-                src:                    ['fixtures/**/*'],
-                stopOnFirstFail:        false,
-                takeScreenshotsOnFails: true,
-                videoPath:              '/videos',
-                videoOptions:           {
-                    failedOnly:  true,
-                    pathPattern: '${TEST_INDEX}/${USERAGENT}/${FILE_INDEX}.mp4',
-                    ffmpegPath:  '/usr/bin/ffmpeg'
-                },
+                configuration: {
+                    allowMultipleWindows: false,
+                    appInitDelay:         1000,
+                    assertionTimeout:     3000,
+                    browsers:             ['chrome', 'firefox'],
+                    concurrency:          1,
+                    debugMode:            false,
+                    debugOnFail:          false,
+                    developmentMode:      false,
+                    disablePageCaching:   false,
+                    disablePageReloads:   false,
+                    disableScreenshots:   false,
+                    hostname:             'localhost',
+                    pageLoadTimeout:      3000,
+                    port1:                1337,
+                    port2:                1338,
+                    quarantineMode:       false,
+                    reporter:             [{ name: 'jenkins' }],
+                    retryTestPages:       false,
+                    screenshots:          {
+                        path:        '/screenshots',
+                        takeOnFails: true,
+                        pathPattern: '${TEST_INDEX}/${USERAGENT}/${FILE_INDEX}.png'
+                    },
+                    selectorTimeout:        10000,
+                    skipJsErrors:           false,
+                    skipUncaughtErrors:     false,
+                    speed:                  1,
+                    src:                    ['fixtures/**/*'],
+                    stopOnFirstFail:        false,
+                    takeScreenshotsOnFails: true,
+                    videoPath:              '/videos',
+                    videoOptions:           {
+                        failedOnly:  true,
+                        pathPattern: '${TEST_INDEX}/${USERAGENT}/${FILE_INDEX}.mp4',
+                        ffmpegPath:  '/usr/bin/ffmpeg'
+                    }
+                }
             }
         ]
     },
