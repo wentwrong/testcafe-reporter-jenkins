@@ -10,13 +10,16 @@ export default function () {
         currentFixtureName: null,
         testCount:          0,
         singleVideoHash:    null,
-        options:            null,
+        screenshotsDir:     null,
+        videosDir:          null,
 
-        async reportTaskStart (startTime, userAgents, testCount, testStructure, { configuration } = {}) {
+        async reportTaskStart (startTime, userAgents, testCount, testStructure, taskProperties) {
             this.startTime = startTime;
             this.uaList    = userAgents.join(', ');
             this.testCount = testCount;
-            this.options   = configuration;
+
+            this.screenshotsDir = taskProperties?.configuration?.screenshots?.path;
+            this.videosDir      = taskProperties?.configuration?.videoPath;
         },
 
         async reportFixtureStart (name) {
@@ -39,39 +42,26 @@ export default function () {
             this.report += this.indentString('</failure>\n', 4);
         },
 
-        _correctAttachmentPath ({ attachmentPath, type }) {
-            if (this.options) {
-                if (type === 'screenshot')
-                    return path.relative(this.options.screenshots.path, attachmentPath);
-                else if (type === 'video' && this.options.videoPath)
-                    return path.relative(this.options.videoPath, attachmentPath);
+        _correctAttachmentPath (baseDir, attachmentPath) {
+            if (!baseDir)
+                return attachmentPath;
 
-            }
-
-            return attachmentPath;
+            return path.relative(baseDir, attachmentPath);
         },
 
         _renderAttachments (testRunInfo, hasScreenshots, hasVideos) {
             this.report += this.indentString('<system-out>\n', 4);
             this.report += this.indentString('<![CDATA[\n', 4);
 
-            if (this.options) {
-                const screenshotsDir = this.options.screenshots.path;
-                const videosDir = this.options.videoPath;
+            if (hasScreenshots && this.screenshotsDir)
+                this.report += this.indentString(`[[screenshotsDir|${this.screenshotsDir}]]\n`, 6);
 
-                if (hasScreenshots && screenshotsDir)
-                    this.report += this.indentString(`[[screenshotsDir|${screenshotsDir}]]\n`, 6);
-
-                if (hasVideos && videosDir)
-                    this.report += this.indentString(`[[videosDir|${videosDir}]]\n`, 6);
-            }
+            if (hasVideos && this.videosDir)
+                this.report += this.indentString(`[[videosDir|${this.videosDir}]]\n`, 6);
 
             if (hasScreenshots) {
                 for (const screenshot of testRunInfo.screenshots) {
-                    const correctedPath = this._correctAttachmentPath({
-                        attachmentPath: screenshot.screenshotPath,
-                        type:           'screenshot'
-                    });
+                    const correctedPath = this._correctAttachmentPath(this.screenshotsDir, screenshot.screenshotPath);
 
                     this.report += this.indentString(`[[screenshot|${correctedPath}|${uuidv4()}]]\n`, 6);
                 }
@@ -84,10 +74,7 @@ export default function () {
 
                     const videoHash = video.singleFile ? this.singleVideoHash : uuidv4();
 
-                    const correctedPath = this._correctAttachmentPath({
-                        attachmentPath: video.videoPath,
-                        type:           'video'
-                    });
+                    const correctedPath = this._correctAttachmentPath(this.videosDir, video.videoPath);
 
                     this.report += this.indentString(`[[video|${correctedPath}|${videoHash}]]\n`, 6);
                 }
@@ -98,9 +85,9 @@ export default function () {
         },
 
         async reportTestDone (name, testRunInfo) {
-            const hasErr = !!testRunInfo.errs.length;
-            const hasScreenshots = testRunInfo.screenshots && !!testRunInfo.screenshots.length;
-            const hasVideos = testRunInfo.videos && !!testRunInfo.videos.length;
+            const hasErr         = testRunInfo?.errs?.length;
+            const hasScreenshots = testRunInfo?.screenshots?.length;
+            const hasVideos      = testRunInfo?.videos?.length;
 
             name = this.escapeHtml(name);
 
