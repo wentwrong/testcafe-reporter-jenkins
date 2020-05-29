@@ -16,10 +16,113 @@ module.exports = [
         args:   [
             new Date('1970-01-01T00:00:00.000Z'),
             [
-                'Chrome 41.0.2227 / Mac OS X 10.10.1',
-                'Firefox 47 / Mac OS X 10.10.1'
+                'Chrome 83.0.4103.61 / Linux 0.0',
+                'Firefox 76.0 / Linux 0.0'
             ],
-            7
+            7,
+            // NOTE: testStructure
+            [
+                {
+                    fixture: {
+                        id:    'fid1',
+                        name:  'First fixture',
+                        tests: [
+                            {
+                                id:   'idf1t1',
+                                name: 'First test in first fixture',
+                                skip: false
+                            },
+                            {
+                                id:   'idf1t2',
+                                name: 'Second test in first fixture',
+                                skip: false,
+                            },
+                            {
+                                id:   'idf1t3',
+                                name: 'Third test in first fixture',
+                                skip: false
+                            }
+                        ]
+                    }
+                },
+                {
+                    fixture: {
+                        id:    'fid2',
+                        name:  'Second fixture',
+                        tests: [
+                            {
+                                id:   'idf2t1',
+                                name: 'First test in second fixture',
+                                skip: true
+                            },
+                            {
+                                id:   'idf2t2',
+                                name: 'Second test in second fixture',
+                                skip: false,
+                            },
+                            {
+                                id:   'idf2t3',
+                                name: 'Third test in second fixture',
+                                skip: false
+                            }
+                        ]
+                    }
+                },
+                {
+                    fixture: {
+                        id:    'fid3',
+                        name:  'Third fixture',
+                        tests: [
+                            {
+                                id:   'idf3t1',
+                                name: 'First test in third fixture',
+                                skip: false
+                            }
+                        ]
+                    }
+                }
+            ],
+            // NOTE: task properties
+            {
+                configuration: {
+                    allowMultipleWindows: false,
+                    appInitDelay:         1000,
+                    assertionTimeout:     3000,
+                    browsers:             ['chrome', 'firefox'],
+                    concurrency:          1,
+                    debugMode:            false,
+                    debugOnFail:          false,
+                    developmentMode:      false,
+                    disablePageCaching:   false,
+                    disablePageReloads:   false,
+                    disableScreenshots:   false,
+                    hostname:             'localhost',
+                    pageLoadTimeout:      3000,
+                    port1:                1337,
+                    port2:                1338,
+                    quarantineMode:       false,
+                    reporter:             [{ name: 'jenkins' }],
+                    retryTestPages:       false,
+                    screenshots:          {
+                        path:        '/screenshots',
+                        takeOnFails: true,
+                        pathPattern: '${TEST_INDEX}/${USERAGENT}/${FILE_INDEX}.png'
+                    },
+                    selectorTimeout:        10000,
+                    skipJsErrors:           false,
+                    skipUncaughtErrors:     false,
+                    speed:                  1,
+                    src:                    ['fixtures/**/*'],
+                    stopOnFirstFail:        false,
+                    takeScreenshotsOnFails: true,
+                    videoPath:              '/videos',
+                    videoOptions:           {
+                        failedOnly:  true,
+                        pathPattern: '${TEST_INDEX}/${USERAGENT}/${FILE_INDEX}.mp4',
+                        ffmpegPath:  '/usr/bin/ffmpeg'
+                    }
+                }
+            }
         ]
     },
     {
@@ -36,15 +139,24 @@ module.exports = [
             {
                 errs:           [],
                 warnings:       [],
-                durationMs:     74000,
+                durationMs:     10271,
                 unstable:       false,
-                screenshotPath: '/screenshots/1445437598847',
+                screenshotPath: '/screenshots/1',
                 screenshots:    [
                     {
-                        screenshotPath:    '/screenshots/1445437598847',
-                        thumbnailPath:     '/screenshots/1445437598847/thumbnail',
-                        userAgent:         'Chrome 41.0.2227 / Mac OS X 10.10.1',
-                        quarantineAttempt: 0,
+                        testRunId:         't1f1_1',
+                        screenshotPath:    '/screenshots/1/Firefox_76.0_Linux_0.0/1.png',
+                        thumbnailPath:     '/screenshots/1/Firefox_76.0_Linux_0.0/thumbnails/1.png',
+                        userAgent:         'Firefox_76.0_Linux_0.0',
+                        quarantineAttempt: null,
+                        takenOnFail:       false
+                    },
+                    {
+                        testRunId:         't1f1_2',
+                        screenshotPath:    '/screenshots/1/Chrome_83.0.4103.61_Linux_0.0/1.png',
+                        thumbnailPath:     '/screenshots/1/Chrome_83.0.4103.61_Linux_0.0/thumbnails/1.png',
+                        userAgent:         'Chrome_83.0.4103.61_Linux_0.0',
+                        quarantineAttempt: null,
                         takenOnFail:       false
                     }
                 ],
@@ -65,7 +177,7 @@ module.exports = [
                         err: new UncaughtErrorOnPage('Some error', 'http://example.org'),
 
                         metaInfo: {
-                            userAgent:      'Chrome 41.0.2227 / Mac OS X 10.10.1',
+                            userAgent:      'Chrome 83.0.4103.61 / Linux 0.0',
                             screenshotPath: '/screenshots/1445437598847/errors',
                             callsite:       testCallsite,
                             testRunPhase:   'inTest'
@@ -75,37 +187,44 @@ module.exports = [
                         err: new ActionElementNotFoundError({ apiFnChain: ['one', 'two', 'three'], apiFnIndex: 1 }),
 
                         metaInfo: {
-                            userAgent:    'Firefox 47 / Mac OS X 10.10.1',
+                            userAgent:    'Firefox 76.0 / Linux 0.0',
                             callsite:     testCallsite,
                             testRunPhase: 'inTest'
                         }
                     }
                 ]),
                 warnings:       [],
-                durationMs:     74000,
+                durationMs:     5871,
                 unstable:       false,
-                screenshotPath: '/screenshots/1445437598847',
+                screenshotPath: '/screenshots/2',
                 screenshots:    [
                     {
-                        screenshotPath:    '/screenshots/1445437598847',
-                        thumbnailPath:     '/screenshots/1445437598847/thumbnail',
-                        userAgent:         'Chrome 41.0.2227 / Mac OS X 10.10.1',
-                        quarantineAttempt: 0,
+                        testRunId:         'idf1t2_1',
+                        screenshotPath:    '/screenshots/2/Firefox_76.0_Linux_0.0/errors/1.png',
+                        thumbnailPath:     '/screenshots/2/Firefox_76.0_Linux_0.0/errors/thumbnails/1.png',
+                        userAgent:         'Firefox_76.0_Linux_0.0',
+                        quarantineAttempt: null,
                         takenOnFail:       true
                     },
                     {
-                        screenshotPath:    '/screenshots/1445437598847',
-                        thumbnailPath:     '/screenshots/1445437598847/thumbnail',
-                        userAgent:         'Firefox 47 / Mac OS X 10.10.1',
-                        quarantineAttempt: 0,
+                        testRunId:         'idf1t2_2',
+                        screenshotPath:    '/screenshots/2/Chrome_83.0.4103.61_Linux_0.0/errors/1.png',
+                        thumbnailPath:     '/screenshots/2/Chrome_83.0.4103.61_Linux_0.0/errors/thumbnails/1.png',
+                        userAgent:         'Chrome_83.0.4103.61_Linux_0.0',
+                        quarantineAttempt: null,
                         takenOnFail:       true
                     }
                 ],
                 videos: [
                     {
-                        testRunId:  '',
-                        videoPath:  '/videos/1445437598847',
-                        singleFile: true
+                        testRunId:  'idf1t2_1',
+                        videoPath:  '/videos/2/Firefox_76.0_Linux_0.0/1.mp4',
+                        singleFile: false
+                    },
+                    {
+                        testRunId:  'idf1t2_2',
+                        videoPath:  '/videos/2/Chrome_83.0.4103.61_Linux_0.0/1.mp4',
+                        singleFile: false
                     }
                 ],
                 quarantine: null,
@@ -120,7 +239,7 @@ module.exports = [
             {
                 errs:           [],
                 warnings:       [],
-                durationMs:     74000,
+                durationMs:     3564,
                 unstable:       false,
                 screenshotPath: null,
                 screenshots:    [],
@@ -150,7 +269,7 @@ module.exports = [
                 screenshots:    [],
                 videos:         [],
                 quarantine:     null,
-                skipped:        false
+                skipped:        true
             }
         ]
     },
@@ -161,7 +280,7 @@ module.exports = [
             {
                 errs:           [],
                 warnings:       [],
-                durationMs:     74000,
+                durationMs:     3596,
                 unstable:       false,
                 screenshotPath: null,
                 screenshots:    [],
@@ -178,7 +297,7 @@ module.exports = [
             {
                 errs:           [],
                 warnings:       [],
-                durationMs:     0,
+                durationMs:     4526,
                 unstable:       false,
                 screenshotPath: null,
                 screenshots:    [],
@@ -205,26 +324,33 @@ module.exports = [
                         err: new ActionElementNotFoundError({ apiFnChain: ['one', 'two', 'three'], apiFnIndex: 1 }),
 
                         metaInfo: {
-                            userAgent:    'Firefox 47 / Mac OS X 10.10.1',
+                            userAgent:    'Firefox 76.0 / Linux 0.0',
                             callsite:     testCallsite,
                             testRunPhase: 'inFixtureBeforeEachHook'
                         }
                     }
                 ]),
                 warnings:       [],
-                durationMs:     0,
+                durationMs:     6557,
                 unstable:       false,
-                screenshotPath: '/screenshots/1445437598847',
+                screenshotPath: '/screenshots/7',
                 screenshots:    [
                     {
-                        screenshotPath:    '/screenshots/1445437598847',
-                        thumbnailPath:     '/screenshots/1445437598847/thumbnail',
-                        userAgent:         'Firefox 47 / Mac OS X 10.10.1',
-                        quarantineAttempt: 0,
-                        takenOnFail:       false
+                        testRunId:         'f3t1',
+                        screenshotPath:    '/screenshots/7/Firefox_76.0_Linux_0.0/errors/1.png',
+                        thumbnailPath:     '/screenshots/7/Firefox_76.0_Linux_0.0/errors/thumbnails/1.png',
+                        userAgent:         'Firefox_76.0_Linux_0.0',
+                        quarantineAttempt: null,
+                        takenOnFail:       true
                     }
                 ],
-                videos:     [],
+                videos: [
+                    {
+                        testRunId:  'f3t1',
+                        videoPath:  '/videos/7/Firefox_76.0_Linux_0.0/1.mp4',
+                        singleFile: false
+                    }
+                ],
                 quarantine: null,
                 skipped:    false
             }
@@ -241,8 +367,8 @@ module.exports = [
             ],
             {
                 failedCount:  2,
-                passedCount:  5,
-                skippedCount: 0
+                passedCount:  4,
+                skippedCount: 1
             }
         ]
     }

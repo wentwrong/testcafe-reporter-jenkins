@@ -44,5 +44,8 @@ module.exports = async function createReport (withColors) {
     // NOTE: mock suite UUID hash
     outStream.data = outStream.data.replace(/id="(.*)"/g, 'id="UUID"');
 
+    // NOTE: convert backslashes into forward slashes for system independence paths
+    outStream.data = outStream.data.replace(/\\/g, '/');
+
     return outStream.data;
 };
